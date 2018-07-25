@@ -51,17 +51,24 @@ export class MockConnector {
   }
 
   get DataAccessObject() {
-    return {
-      geocode: async function(street: string, city: string, zipcode: string) {
-        return {
-          lat: 37.5669986,
-          lng: -122.3237495,
-        };
-      },
+    const dao = this.connected
+      ? {
+          geocode: async function(
+            street: string,
+            city: string,
+            zipcode: string,
+          ) {
+            return {
+              lat: 37.5669986,
+              lng: -122.3237495,
+            };
+          },
 
-      // loopback-datasource-juggler expects a prototype
-      // https://github.com/strongloop/loopback-datasource-juggler/blob/v3.18.1/lib/datasource.js#L168
-      prototype: {},
-    };
+          // loopback-datasource-juggler expects a prototype
+          // https://github.com/strongloop/loopback-datasource-juggler/blob/v3.18.1/lib/datasource.js#L168
+          prototype: {},
+        }
+      : {};
+    return dao;
   }
 }
